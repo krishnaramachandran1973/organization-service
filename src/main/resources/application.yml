@@ -11,7 +11,27 @@ keycloak:  realm: spmia-realm
   ssl-required: external
   resource: ostock
   credentials:
-    secret: 91dbed1e-af6f-4324-bc2d-32329ace4ff5
+    secret: e62dea51-351b-4679-93f0-a13ffbc1af49
   use-resource-role-mappings: true
   bearer-only: true
          
+---
+
+spring:
+  application:
+    name: organization-service     
+  profiles:
+    active:
+    - prod
+  cloud:    config:      profile: prod  
+  config:
+      import: optional:configserver:http://${CONFIG_SERVER}:8888
+keycloak:
+  realm: spmia-realm
+  auth-server-url: http://${KEYCLOAK_SERVER}:9090/auth
+  ssl-required: external
+  resource: ostock
+  credentials:
+    secret: ${KEYCLOAK_SECRET}
+  use-resource-role-mappings: true
+  bearer-only: true         
